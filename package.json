@@ -1,0 +1,18 @@
+{
+  "name": "hackernews",
+  "version": "1.0.0",
+  "description": "hacker news implemented with graphql",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "graphql",
+    "nodejs"
+  ],
+  "author": "Harry Zhang",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.16.2"
+  }
+}
