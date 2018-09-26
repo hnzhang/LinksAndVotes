@@ -38,6 +38,8 @@ const resolvers = {
             }
             return link;
         },
+        //Note that root(or parent) is the the result of previous resolver execution level.
+        // because query can be nested.
         deleteLink: (root, args) =>{
             const link = links.find(item => item.id === args.id);
             if(link){
@@ -46,6 +48,11 @@ const resolvers = {
             }
             return link;
         }
+    },
+    Link:{
+        id: (root)=> root.id,
+        description: (root) => root.description,
+        url: (root)=> root.url,
     }
 };
 
