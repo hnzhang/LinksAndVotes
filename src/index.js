@@ -2,7 +2,7 @@ const {GraphQLServer} = require('graphql-yoga');
 const {Prisma} = require('prisma-binding');
 
 const {info, feed} = require('./resolvers/Query');
-const {post} = require('./resolvers/Mutation');
+const {post, signup, login} = require('./resolvers/Mutation');
 
 
 const resolvers = {
@@ -12,6 +12,8 @@ const resolvers = {
     },
     Mutation: {
         post,
+        signup,
+        login,
     },
 };
 

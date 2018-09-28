@@ -1,7 +1,7 @@
 # import Link from "./generated/schema.graphql"
 type AutoPayload {
     token: String
-    user: User
+    id: String
 }
 type Query{
     info: String!
@@ -10,4 +10,6 @@ type Query{
 
 type Mutation {
     post(url: String!, description: String!) : Link!
+    signup(name: String!, email: String!, password: String!): AutoPayload
+    login(email: String!, password: String!): AutoPayload
 }
