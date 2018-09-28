@@ -15,6 +15,7 @@ let idCount = links.length;
 
 const resolvers = {
     Query: {
+        info: ()=> "Hello, this is GraphQL sandbox from Harry!",
         feed: (root, args, context, info) =>{
             return context.db.query.links({}, info);
         },
