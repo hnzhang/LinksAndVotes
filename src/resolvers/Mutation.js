@@ -11,7 +11,7 @@ async function post(parent, args, context, info){
         data:{
             description: args.description,
             url: args.url,
-            postedBy: {connect: {id: userId}},
+            postBy: {connect: {id: userId}},
         }
     }, info);
 }
@@ -28,8 +28,9 @@ async function signup(parent, args, context, info){
     }
     
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
-    const user = getUser()
-    return {token, id: user.id};
+    //this user contains id field and get auto resolved from user resolver
+    //defined in AuthPayload
+    return {token, user};
 }
 
 async function login(parent, args, context, info){
@@ -43,7 +44,7 @@ async function login(parent, args, context, info){
     }
     const token = jwt.sign({userId: user.id}, APP_SECRET);
 
-    return {token, id: user.id};
+    return {token, user};
 }
 module.exports = {
     post,
