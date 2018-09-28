@@ -1,5 +1,8 @@
 # import Link from "./generated/schema.graphql"
-
+type AutoPayload {
+    token: String
+    user: User
+}
 type Query{
     info: String!
     feed: [Link!]!

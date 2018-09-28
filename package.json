@@ -13,7 +13,9 @@
   "author": "Harry Zhang",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "graphql-yoga": "^1.16.2",
+    "jsonwebtoken": "^8.3.0",
     "prisma-binding": "^2.1.6"
   }
 }

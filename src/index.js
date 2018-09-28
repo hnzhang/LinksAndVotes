@@ -1,31 +1,17 @@
 const {GraphQLServer} = require('graphql-yoga');
 const {Prisma} = require('prisma-binding');
 
-const links = [{
-    id: '001',
-    url: "playernetwork.com",
-    description: 'A boy in in grade 5 in walnut road elementary, and swims at SurreyKnights Club',
-},{
-    id:'002',
-    url: "fleetwood.com",
-    description: 'A girl in Grade 10 in Fleetwood Park Secondary, and coach at SurreyKnight Swimming Club'
-}];
+const {info, feed} = require('./resolvers/Query');
+const {post} = require('./resolvers/Mutation');
 
-let idCount = links.length;
 
 const resolvers = {
     Query: {
-        info: ()=> "Hello, this is GraphQL sandbox from Harry!",
-        feed: (root, args, context, info) =>{
-            return context.db.query.links({}, info);
-        },
+        info,
+        feed,
     },
     Mutation: {
-        post: (root, args, context, info) => {
-            return context.db.mutation.createLink({
-                data:{ url: args.url, description:args.description }
-            }, info);
-        },
+        post,
     },
 };
 
