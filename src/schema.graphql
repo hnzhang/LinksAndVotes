@@ -1,4 +1,4 @@
-# import Link from "./generated/schema.graphql"
+# import Link, LinkSubscriptionPayload from "./generated/schema.graphql"
 type AuthPayload {
     token: String
     user: User
@@ -12,4 +12,8 @@ type Mutation {
     post(url: String!, description: String!) : Link!
     signup(name: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
+}
+
+type Subscription {
+    newLink: LinkSubscriptionPayload
 }
