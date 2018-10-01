@@ -1,11 +1,20 @@
-# import Link, LinkSubscriptionPayload from "./generated/schema.graphql"
+# import Link, LinkSubscriptionPayload, LinkOrderByInput from "./generated/schema.graphql"
 type AuthPayload {
     token: String
     user: User
 }
 type Query{
     info: String!
-    feed(filter: String): [Link!]!
+    ###Pagination.  Limit-Offset--offset(start index), limit(count)
+    ###             Cursor-based. a unique ID specifed as the cursor. and limit
+    ### for Prisma. skip is the the start index, and first is the limit, means
+    ### that the first x element are fetched.
+    feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+}
+
+type Feed {
+    links: [Link!]!
+    count: Int!
 }
 
 type Mutation {
