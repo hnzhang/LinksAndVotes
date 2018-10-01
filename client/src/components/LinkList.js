@@ -21,7 +21,6 @@ class LinkList extends Component {
         return <Query query={FEED_QUERY}>
             {
                 ({loading, error, data})=>{
-                    console.log(FEED_QUERY);
                     if(loading){
                         return <div>Fetching</div>
                     }
