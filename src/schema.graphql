@@ -1,8 +1,16 @@
-# import Link, LinkSubscriptionPayload, LinkOrderByInput from "./generated/schema.graphql"
+# import Link, LinkSubscriptionPayload, Vote, LinkOrderByInput from "./generated/schema.graphql"
 type AuthPayload {
     token: String
     user: User
 }
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    links: [Link!]!
+}
+
 type Query{
     info: String!
     ###Pagination.  Limit-Offset--offset(start index), limit(count)
@@ -21,6 +29,7 @@ type Mutation {
     post(url: String!, description: String!) : Link!
     signup(name: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
+    vote(linkId: ID!): Vote
 }
 
 type Subscription {

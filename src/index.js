@@ -6,11 +6,7 @@ const Mutation = require('./resolvers/Mutation');
 const AuthPayload = require('./resolvers/AuthPayload');
 const Subscription = require('./resolvers/Subscription');
 const Feed = require('./resolvers/Feed');
-/**
- * Note:
- * bugs:
- * 1. PostBy cannot be resolved further info user data
- */
+
 const resolvers = {
     Query,
     Mutation,

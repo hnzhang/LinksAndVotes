@@ -26,7 +26,7 @@ async function signup(parent, args, context, info){
     if(!user){
         throw new Error("Failed to sign up");
     }
-    
+
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     //this user contains id field and get auto resolved from user resolver
     //defined in AuthPayload
@@ -46,8 +46,32 @@ async function login(parent, args, context, info){
 
     return {token, user};
 }
+
+async function vote(parent, args, context, info) {
+    const userToken = getUserId(context);
+
+    const linkExists = await context.db.exists.Vote({
+        user: {id: userToken.userId},
+        link: {id: args.linkId},
+    })
+    if(linkExists){
+        throw new Error(`User[${userToken.userId}] already voted for link:[${args.linkId}]`);
+    }
+    const link  = { connect: {id: args.linkId} };
+    const user = { connect: {id: userToken.userId} };
+    console.log("link:", link);
+    console.log("user: " , user);
+
+    return context.db.mutation.createVote({
+        data:{
+            link: { connect: {id: args.linkId} },
+            user:{ connect: {id: userToken.userId} },
+        }
+    }, info);
+}
 module.exports = {
     post,
     signup,
     login,
+    vote,
 }
