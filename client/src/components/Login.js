@@ -33,6 +33,9 @@ class Login extends Component {
 
     render() {
         const {login, email, password, name} = this.state;
+        
+        const mutationAction = login ? LOGIN_MUTATION : SIGNUP_MUTATION;
+
         return (
             <div>
                 <h4>{login ?  'Login' : 'Sign up' }</h4>
@@ -50,9 +53,13 @@ class Login extends Component {
                         placeholder="Your password" />
                 </div>
                 <div className='flex mt3'>
-                    <div className="pointer mr2 button" onClick={()=>this._confirm()}>
-                        {login ? 'login' : 'create account'}
-                    </div>
+                    <Mutation mutation={mutationAction} variables={{email, password, name}} onCompleted={ data=>this._confirm(data)}>
+                        {mutation=>(
+                            <div className="pointer mr2 button" onClick={mutation}>
+                               {login ? 'login' : 'create account'}
+                             </div>
+                        )}
+                    </Mutation>
                     <div className='pointer button' onClick={()=> this.setState({login: !login})}>
                         {login ? 'need to create a new account' : 'already have an account'}
                     </div>
@@ -61,8 +68,10 @@ class Login extends Component {
         )
     }
 
-    _confirm = async () => {
-        //TODO: implement confirmation of input
+    _confirm = async (data) => {
+        const {token} = this.state.login ? data.login : data.signup;
+        this._saveUserData(token);
+        this.props.history.push('/');
     }
 
     _saveUserData = token =>{
