@@ -29,7 +29,7 @@ class LinkList extends Component {
                         return <div>Error</div>
                     }
                     const linkToRender = data.feed.links;
-                    console.log("fetched data", linkToRender);
+                    //console.log("fetched data", linkToRender);
                     return (
                         <div>
                          {linkToRender.map( link => <Link key={link.id} link={link} /> )}
