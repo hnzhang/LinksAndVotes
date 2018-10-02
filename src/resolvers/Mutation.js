@@ -11,7 +11,7 @@ async function post(parent, args, context, info){
         data:{
             description: args.description,
             url: args.url,
-            postBy: {connect: {id: userId}},
+            postedBy: {connect: {id: userId}},
         }
     }, info);
 }
