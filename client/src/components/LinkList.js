@@ -12,7 +12,15 @@ const FEED_QUERY = gql`
         id
         url
         description
+        createdAt
+        postedBy {
+            name
+        }
+        votes{
+            id
+        }
       }
+      count
     }
   }
 `;
@@ -32,7 +40,7 @@ class LinkList extends Component {
                     //console.log("fetched data", linkToRender);
                     return (
                         <div>
-                         {linkToRender.map( link => <Link key={link.id} link={link} /> )}
+                         {linkToRender.map( (link, index) => <Link key={link.id} index={index} link={link} /> )}
                         </div>
                     );
                 }

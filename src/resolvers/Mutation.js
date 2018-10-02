@@ -6,7 +6,8 @@ const {getUser} = require('./AuthPayload');
 const {APP_SECRET, getUserId} = require('../../utils');
 
 async function post(parent, args, context, info){
-    const userId = getUserId(context);
+    const {userId} = getUserId(context);
+    console.log("user id", userId);
     return context.db.mutation.createLink({
         data:{
             description: args.description,
