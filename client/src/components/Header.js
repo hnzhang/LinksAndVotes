@@ -10,14 +10,18 @@ class Header extends Component {
             <div className='flex pal justify-between nowrap orange'>
                 <div className='flex flex-fixed black'>
                     <div className='fw7 mr1'> News Links </div>
-                    <Link to='/' className='ml1 no-underline black' >news</Link>        
+                    <Link to='/' className='ml1 no-underline black' >news</Link>
                     {authToken && (
                         <div className='flex'>
-                            <div className='ml1'>|</div>
+                            <div className='ml1'> | </div>
                             <Link to='/create' className='ml1 no-underline black'>Submit</Link>
                         </div>
                     )
                     }
+                    <div className='flex'>
+                        <div className='ml1'> | </div>
+                        <Link to='/search' className='ml1 no-underline black' >Search</Link>
+                    </div>
                 </div>
                 <div className='flex flex-fixed'>
                     {authToken ? (
