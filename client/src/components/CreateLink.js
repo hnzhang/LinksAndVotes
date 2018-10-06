@@ -42,6 +42,7 @@ class CreateLink extends Component {
                     onCompleted={()=> this.props.history.push('/')}
                     update={(store, {data:{post}})=>{
                         const data = store.readQuery({query:FEED_QUERY});
+                        console.log("before writing to store", data);
                         data.feed.links.unshift(post);
                         store.writeQuery({
                             query: FEED_QUERY,

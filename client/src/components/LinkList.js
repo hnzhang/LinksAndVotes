@@ -6,8 +6,8 @@ import gql from 'graphql-tag';
 import Link from './Link';
 
 export const FEED_QUERY = gql`
-  {
-    feed {
+  query FeedQuery($first:Int, $skip: Int, $orderBy: LinkOrderByInput) {
+    feed(first: $first, skip: $skip, orderBy: $orderBy) {
       links {
         id
         url
@@ -24,11 +24,35 @@ export const FEED_QUERY = gql`
     }
   }
 `;
+
+const NEW_LINKS_SUBSCRIPTION = gql`
+subscription {
+    newLink {
+        node {
+            id
+            url
+            description
+            createdAt
+            postedBy {
+                id
+                name
+            }
+            votes {
+                id
+                user {
+                    id
+                }
+            }
+        }
+    }
+}
+`;
+
 class LinkList extends Component {
     render(){
         return <Query query={FEED_QUERY}>
             {
-                ({loading, error, data})=>{
+                ({loading, error, data, subscribeToMore})=>{
                     if(loading){
                         return <div>Fetching</div>
                     }
@@ -38,6 +62,7 @@ class LinkList extends Component {
                     }
                     const linkToRender = data.feed.links;
                     //console.log("fetched data", linkToRender);
+                    this._subscribeToNewLinks(subscribeToMore);
                     return (
                         <div>
                          {linkToRender.map( (link, index) => <Link key={link.id} index={index}
@@ -57,6 +82,25 @@ class LinkList extends Component {
 
         store.writeQuery({query: FEED_QUERY, data});
 
+    }
+
+    _subscribeToNewLinks = subscribeToMore => {
+        subscribeToMore({
+            document: NEW_LINKS_SUBSCRIPTION,
+            query: (prev, {subscriptionData}) => {
+                console.log(subscriptionData);
+                if(!subscriptionData.data) return prev;
+                const newLink = subscriptionData.data.newLink.node;
+
+                return Object.assign({}, prev, {
+                    feed: {
+                        links: [newLink, ...prev.feed.links],
+                        count: prev.links.length + 1,
+                        __typename: prev.feed.__typename,
+                    }
+                })
+            },
+        })
     }
 }
 
