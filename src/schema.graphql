@@ -34,4 +34,5 @@ type Mutation {
 
 type Subscription {
     newLink: LinkSubscriptionPayload
+    newVote: VoteSubscriptionPayload
 }

@@ -48,6 +48,33 @@ subscription {
 }
 `;
 
+const NEW_VOTES_SUBSCRIPTION = gql`
+subscription {
+    newVote {
+        node {
+            id
+            link {
+                id, url
+                description
+                postedBy {
+                    id
+                    name
+                }
+                votes {
+                    id
+                    user {
+                        id
+                    }
+                }
+            }
+            user {
+                id
+            }
+        }
+    }
+}
+`;
+
 class LinkList extends Component {
     render(){
         return <Query query={FEED_QUERY}>
@@ -63,6 +90,7 @@ class LinkList extends Component {
                     const linkToRender = data.feed.links;
                     //console.log("fetched data", linkToRender);
                     this._subscribeToNewLinks(subscribeToMore);
+                    this._subscribeToNewVotes(subscribeToMore);
                     return (
                         <div>
                          {linkToRender.map( (link, index) => <Link key={link.id} index={index}
@@ -101,6 +129,12 @@ class LinkList extends Component {
                 })
             },
         })
+    }
+
+    _subscribeToNewVotes = subscribeToMore => {
+        subscribeToMore({
+            document: NEW_VOTES_SUBSCRIPTION,
+        });
     }
 }
 
