@@ -14,7 +14,7 @@ async function feed(parent, args, context, info){
     const links = await context.db.query.links(
         {where, skip: args.skip, first: args.first, orderBy: args.orderBy},
         `{id}`);
-        console.log("links: " , links);
+        console.log("orderBy", args.orderBy);
     const countSelectedSet = `
     {
         aggregate {

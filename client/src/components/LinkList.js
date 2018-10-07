@@ -4,9 +4,10 @@ import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Link from './Link';
+import {LINKS_PER_PAGE} from '../constants';
 
 export const FEED_QUERY = gql`
-  query FeedQuery($first:Int, $skip: Int, $orderBy: LinkOrderByInput) {
+query FeedQuery($first: Int, $skip: Int, $orderBy: LinkOrderByInput) {
     feed(first: $first, skip: $skip, orderBy: $orderBy) {
       links {
         id
@@ -14,10 +15,14 @@ export const FEED_QUERY = gql`
         description
         createdAt
         postedBy {
+            id
             name
         }
         votes{
             id
+            user {
+                id
+            }
         }
       }
       count
@@ -76,8 +81,18 @@ subscription {
 `;
 
 class LinkList extends Component {
+    _getQueryVaraibles(){
+        const isNewPage = this.props.location.pathname.includes('new');
+        const page = parseInt(this.props.match.params.page, 10);
+        const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0;
+        const first = isNewPage ? LINKS_PER_PAGE : 100;
+        //const orderBy = isNewPage ? 'createdAt_DESC' : null;
+        const orderBy = 'createdAt_DESC';
+        return {first, skip, orderBy};
+    }
+
     render(){
-        return <Query query={FEED_QUERY}>
+        return <Query query={FEED_QUERY} variables={this._getQueryVaraibles()} >
             {
                 ({loading, error, data, subscribeToMore})=>{
                     if(loading){
@@ -88,7 +103,6 @@ class LinkList extends Component {
                         return <div>Error</div>
                     }
                     const linkToRender = data.feed.links;
-                    //console.log("fetched data", linkToRender);
                     this._subscribeToNewLinks(subscribeToMore);
                     this._subscribeToNewVotes(subscribeToMore);
                     return (

@@ -11,6 +11,17 @@ mutation PostMutation($description: String!, $url: String!){
         id
         url
         description
+        createdAt
+        postedBy {
+            id
+            name
+        }
+        votes {
+            id
+            user {
+                id
+            }
+        }
     }
 }
 `;
@@ -43,7 +54,7 @@ class CreateLink extends Component {
                     update={(store, {data:{post}})=>{
                         const first = 0;
                         const skip = 0;
-                        const orderBy = 'createAt_DESC';
+                        const orderBy = 'createdAt_DESC';
                         const data = store.readQuery({
                             query:FEED_QUERY,
                             variables:{first, skip, orderBy},
