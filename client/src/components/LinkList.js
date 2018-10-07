@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
@@ -86,8 +86,7 @@ class LinkList extends Component {
         const page = parseInt(this.props.match.params.page, 10);
         const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0;
         const first = isNewPage ? LINKS_PER_PAGE : 100;
-        //const orderBy = isNewPage ? 'createdAt_DESC' : null;
-        const orderBy = 'createdAt_DESC';
+        const orderBy = isNewPage ? 'createdAt_DESC' : null;
         return {first, skip, orderBy};
     }
 
@@ -102,15 +101,31 @@ class LinkList extends Component {
                         console.log(error);
                         return <div>Error</div>
                     }
-                    const linkToRender = data.feed.links;
                     this._subscribeToNewLinks(subscribeToMore);
                     this._subscribeToNewVotes(subscribeToMore);
+
+                    const linkToRender = data.feed.links;
+                    const isNewPage = this.props.location.pathname.includes('new');
+                    const pageIndex = this.props.match.params.page ?
+                        (this.props.match.params.page - 1) * LINKS_PER_PAGE : 0;
                     return (
-                        <div>
-                         {linkToRender.map( (link, index) => <Link key={link.id} index={index}
+                        <Fragment>
+                         {linkToRender.map( (link, index) =>(
+                          <Link key={link.id} index={index + pageIndex}
                              link={link}
-                             updateStoreAfterVote={this._updateCacheAfterVote} /> )}
-                        </div>
+                             updateStoreAfterVote={this._updateCacheAfterVote} />
+                         ))}
+                        {isNewPage  && (
+                            <div className='flex ml4 mv3 gray'>
+                                <div className='pointer mr2' onClick={this._previousPage}>
+                                    Previous
+                                </div>
+                                <div className='pointer' onClick={()=> this._nextPage(data)}>
+                                    Next
+                                </div>
+                            </div>
+                        )}
+                        </Fragment>
                     );
                 }
             }
@@ -129,15 +144,14 @@ class LinkList extends Component {
     _subscribeToNewLinks = subscribeToMore => {
         subscribeToMore({
             document: NEW_LINKS_SUBSCRIPTION,
-            query: (prev, {subscriptionData}) => {
+            updateQuery: (prev, {subscriptionData}) => {
                 console.log(subscriptionData);
                 if(!subscriptionData.data) return prev;
                 const newLink = subscriptionData.data.newLink.node;
-
                 return Object.assign({}, prev, {
                     feed: {
                         links: [newLink, ...prev.feed.links],
-                        count: prev.links.length + 1,
+                        count: prev.feed.links.length + 1,
                         __typename: prev.feed.__typename,
                     }
                 })
@@ -149,6 +163,21 @@ class LinkList extends Component {
         subscribeToMore({
             document: NEW_VOTES_SUBSCRIPTION,
         });
+    }
+
+    _nextPage = (data) => {
+        const page = parseInt(this.props.match.params.page, 10);
+        if( page <= data.feed.count / LINKS_PER_PAGE){
+            const nextPage = page + 1;
+            this.props.history.push(`/new/${nextPage}`);
+        }
+    }
+    _previousPage = ()=> {
+        const page = parseInt(this.props.match.params.page, 10);
+        if(page > 1){
+            const previousPage = page -1;
+            this.props.history.push(`/new/${previousPage}`);
+        }
     }
 }
 
