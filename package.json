@@ -1,9 +1,10 @@
 {
-  "name": "hackernews",
+  "name": "fullstack-resources",
   "version": "1.0.0",
-  "description": "hacker news implemented with graphql",
+  "description": "resource for full stack developers implemented with graphql",
   "main": "index.js",
   "scripts": {
+    "start": "npm install && node src/index.js",
     "test": "jest"
   },
   "keywords": [
@@ -16,8 +17,10 @@
     "apollo-link-ws": "^1.0.9",
     "bcryptjs": "^2.4.3",
     "eslint": "^5.6.1",
+    "express": "^4.16.3",
     "graphql-yoga": "^1.16.2",
     "jsonwebtoken": "^8.3.0",
+    "path": "^0.12.7",
     "prisma-binding": "^2.1.6",
     "subscriptions-transport-ws": "^0.9.15"
   }

@@ -30,6 +30,27 @@ const server = new GraphQLServer({
         }
     ),
 });
-server.start(
-    ()=> console.log('Server is running on http://localhost:4000')
+const options = {
+    port: process.env.APOLLO_PORT || 4000,
+};
+server.start(options,
+    ({port})=> console.log('Server is running on ', port )
 );
+///////////////////////////////////////////////////////////////
+//server for static client
+/**
+const express = require('express');
+const path = require('path');
+
+if(process.env.NODE_ENV === 'production'){
+    const app = express();
+    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.get('/', (request, response)=>{
+        response.sendFile(path.join(__dirname, '../client/build/index.html'));
+    });
+    const port = process.env.PORT || 5000;
+    app.listen(port, ()=>{
+        console.log(`server running on port ${port}...`);
+    });
+}
+*/
