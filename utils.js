@@ -4,7 +4,6 @@ const APP_SECRET = 'mysecret123';
 
 function getUserId(context){
     const authorization = context.request.get('authorization');
-    console.log("authorization", authorization);
     if(authorization){
         const token = authorization.replace('Bearer ', '');
         const userId = jwt.verify(token, APP_SECRET);

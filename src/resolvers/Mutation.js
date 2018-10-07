@@ -49,24 +49,23 @@ async function login(parent, args, context, info){
 }
 
 async function vote(parent, args, context, info) {
-    const userToken = getUserId(context);
+    const { userId } = getUserId(context);
 
     const linkExists = await context.db.exists.Vote({
-        user: {id: userToken.userId},
+        user: {id: userId},
         link: {id: args.linkId},
-    })
+    });
+
     if(linkExists){
-        throw new Error(`User[${userToken.userId}] already voted for link:[${args.linkId}]`);
+        throw new Error(`User[${userId}] already voted for link:[${args.linkId}]`);
     }
     const link  = { connect: {id: args.linkId} };
-    const user = { connect: {id: userToken.userId} };
-    console.log("link:", link);
-    console.log("user: " , user);
+    const user = { connect: {id: userId} };
 
     return context.db.mutation.createVote({
         data:{
             link: { connect: {id: args.linkId} },
-            user:{ connect: {id: userToken.userId} },
+            user:{ connect: {id: userId} },
         }
     }, info);
 }
