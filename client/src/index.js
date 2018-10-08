@@ -23,7 +23,7 @@ let wsURI= 'ws://localhost:4000';
 let httpURI = `http://localhost:4000`;
 if (process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
     const protocal = location.protocol;
-    const host = windows.location.hostname;
+    const hostname = location.hostname;
     const wsProtocal = protocal === 'https' ? 'wss' : 'ws';
 
     httpURI = `${protocal}//${hostname}`;
