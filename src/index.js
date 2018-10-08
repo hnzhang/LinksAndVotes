@@ -31,7 +31,7 @@ const server = new GraphQLServer({
     ),
 });
 const options = {
-    port: process.env.APOLLO_PORT || 4000,
+    port: process.env.PORT || 4000,
 };
 server.start(options,
     ({port})=> console.log('Server is running on ', port )
