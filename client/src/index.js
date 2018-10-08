@@ -22,8 +22,12 @@ import { AUTH_TOKEN } from './constants';
 let wsURI= 'ws://localhost:4000';
 let httpURI = `http://localhost:4000`;
 if (process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
-    httpURI = 'https://fullstack-resources.herokuapp.com';
-    wsURI = 'wss://fullstack-resources.herokuapp.com';
+    const protocal = location.protocol;
+    const host = windows.location.hostname;
+    const wsProtocal = protocal === 'https' ? 'wss' : 'ws';
+
+    httpURI = `${protocal}//${hostname}`;
+    wsURI = `${wsProtocal}//${hostname}`;
 }
 const wsLink = new WebSocketLink({
     uri: wsURI,
