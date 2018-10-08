@@ -22,11 +22,10 @@ import { AUTH_TOKEN } from './constants';
 let wsURI= 'ws://localhost:4000';
 let httpURI = `http://localhost:4000`;
 if (process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
-    const wsProtocal = 'wss';
     const hostname = process.env.HOST_NAME;
 
-    httpURI = `${protocal}//${hostname}`;
-    wsURI = `${wsProtocal}//${hostname}`;
+    httpURI = `https://${hostname}`;
+    wsURI = `wss://${hostname}`;
 }
 const wsLink = new WebSocketLink({
     uri: wsURI,
