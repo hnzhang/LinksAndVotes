@@ -19,8 +19,14 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 import {setContext} from 'apollo-link-context';
 import { AUTH_TOKEN } from './constants';
 
+let wsURI= 'ws://localhost:4000';
+let httpURI = `http://localhost:4000`;
+if (process.env.NODE_ENV || process.env.NODE_ENV === 'production') {
+    httpURI = 'https://fullstack-resources.herokuapp.com';
+    wsURI = 'ws://fullstack-resources.herokuapp.com';
+}
 const wsLink = new WebSocketLink({
-    uri:`ws://localhost:4000`,
+    uri: wsURI,
     options: {
         reconnect: true,
         connectionParams: {
@@ -29,7 +35,7 @@ const wsLink = new WebSocketLink({
     }
 });
 
-const httpLink = createHttpLink({ uri: 'http://localhost:4000/' });
+const httpLink = createHttpLink({ uri: httpURI });
 const authLink = setContext((_, {headers}) => {
     const token = localStorage.getItem(AUTH_TOKEN);
     return {
