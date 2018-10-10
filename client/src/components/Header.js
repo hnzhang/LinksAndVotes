@@ -28,7 +28,7 @@ class Header extends Component {
                     </li>
                 <li className='nav-item'>
                     {authToken ? (
-                        <div className='nav-link'
+                        <div className='btn btn-info mr-1'
                             onClick={()=>{
                                 localStorage.removeItem(AUTH_TOKEN);
                                 this.props.history.push('/');
@@ -37,7 +37,7 @@ class Header extends Component {
                            Logout
                         </div>
                     ) : (
-                        <Link to='/login' className='nav-link'>login</Link>
+                        <Link to='/login' className='btn btn-info mr-1'>Login</Link>
                     )
                     }
                 </li>
