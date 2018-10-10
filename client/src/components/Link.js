@@ -30,33 +30,30 @@ class Link extends Component{
         const authToken = localStorage.getItem(AUTH_TOKEN);
 
         return (
-            <div className='flex mt2 item-start'>
-                <div className='flex items-center'>
-                    <span className='gray'>{this.props.index+1}.</span>
+            <div className='list-group-item'>
+                    <span className='badge'>{this.props.index+1}.</span>
+                    {this.props.link.description} ({this.props.link.url})
                     {authToken && (
                         <Mutation mutation={VOTE_MUTATION} variables={{linkId:this.props.link.id}}
                             update={
                                 (store, {data:{vote}})=>
                                 this.props.updateStoreAfterVote(store, vote, this.props.link.id)
-                            }>
-                        {(voteMutation)=>(
-                            <div className='ml1 gray f11' onClick={voteMutation}>
-                            +
-                             </div>
-                        )}
+                            }
+                        >
+                            {
+                                (voteMutation)=>(
+                                <span className='btn-success' onClick={voteMutation}>
+                                    +++++<i className='far fa-thumbs-up' />
+                                </span>
+                                )
+                             }
                         </Mutation>
                     )}
-                    <div className='ml1'>
-                        <div>
-                            {this.props.link.description} ({this.props.link.url})
-                        </div>
-                        <div className='f6 lh-copy gray'>
-                            {this.props.link.votes.length } votes | by {' '}
-                            {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'}{' '}
-                            {timeDifferenceForDate(this.props.link.createdAt)}
-                        </div>
-                    </div>
-                </div>
+                    <span className='badge badge-secondary'>
+                        {this.props.link.votes.length } votes | by {' '}
+                        {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'}{' '}
+                        {timeDifferenceForDate(this.props.link.createdAt)}
+                    </span>
             </div>
         );
     }

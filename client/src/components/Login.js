@@ -41,35 +41,44 @@ class Login extends Component {
         const mutationAction = login ? LOGIN_MUTATION : SIGNUP_MUTATION;
 
         return (
-            <div>
-                <h4>{login ?  'Login' : 'Sign up' }</h4>
-                <div className="flex flex-column">
+            <div className='container'>
+            <div className='row'>
+            <div className="col-md-8 m-auto">
+                <h4 className='display-4 text-center'>{login ?  'Login' : 'Sign up' }</h4>
                     {!login && (
-                        <input value={name} onChange={e=> this.setState({name: e.target.value})}
-                        type='text'
-                        placeholder='Your Name' />
+                        <div className="form-group">
+                        <input className='form-control'
+                            value={name} onChange={e=> this.setState({name: e.target.value})}
+                            type='text'
+                            placeholder='Your Name' />
+                    </div>
                     )}
-                    <input value={email} onChange={e=> this.setState({email: e.target.value})}
-                        type='text'
-                        placeholder="Your Email" />
-                    <input value={password} onChange={e => this.setState({password: e.target.value})}
-                        type="password"
-                        placeholder="Your password" />
-                </div>
-                <div className='flex mt3'>
+                    <div className="form-group">
+                        <input className='form-control'
+                            value={email} onChange={e=> this.setState({email: e.target.value})}
+                            type='text'
+                            placeholder="Your Email" />
+                    </div>
+                    <div className="form-group">
+                        <input className='form-control' value={password} onChange={e => this.setState({password: e.target.value})}
+                            type="password"
+                            placeholder="Your password" />
+                    </div>
+                <div className='form-group'>
                     <Mutation mutation={mutationAction} variables={{email, password, name}}
                         onCompleted={ data=>this._confirm(data)} >
                         {mutation=>(
-                            <div className="pointer mr2 button" onClick={mutation}>
+                            <div className="btn btn-info btn-block mt-4" onClick={mutation}>
                                {login ? 'login' : 'create account'}
                              </div>
                         )}
                     </Mutation>
-                    <div className='pointer button' onClick={()=> this.setState({login: !login})}>
+                    <div className='btn btn-block ' onClick={()=> this.setState({login: !login})}>
                         {login ? 'need to create a new account' : 'already have an account'}
                     </div>
                 </div>
             </div>
+            </div></div>
         )
     }
 

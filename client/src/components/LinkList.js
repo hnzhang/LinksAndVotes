@@ -120,17 +120,19 @@ class LinkList extends Component {
                         (this.props.match.params.page - 1) * LINKS_PER_PAGE : 0;
                     return (
                         <Fragment>
-                         {linkToRender.map( (link, index) =>(
-                          <Link key={link.id} index={index + pageIndex}
-                             link={link}
-                             updateStoreAfterVote={this._updateCacheAfterVote} />
-                         ))}
+                        <div className='list-group' >
+                            {linkToRender.map( (link, index) =>(
+                            <Link key={link.id} index={index + pageIndex}
+                                link={link}
+                                updateStoreAfterVote={this._updateCacheAfterVote} />
+                            ))}
+                         </div>
                         {isNewPage  && (
-                            <div className='flex ml4 mv3 gray'>
-                                <div className='pointer mr2' onClick={this._previousPage}>
+                            <div className='container'>
+                                <div className="btn btn-info"  onClick={this._previousPage}>
                                     Previous
-                                </div>
-                                <div className='pointer' onClick={()=> this._nextPage(data)}>
+                                </div>{'  '}
+                                <div className="btn btn-info"  onClick={()=> this._nextPage(data)}>
                                     Next
                                 </div>
                             </div>
