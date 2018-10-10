@@ -90,6 +90,16 @@ class LinkList extends Component {
         return {first, skip, orderBy};
     }
 
+    _getLinksToRender = data =>{
+        const isNewPage = this.props.location.pathname.includes('new');
+        if(isNewPage){
+            return data.feed.links;
+        }
+        const rankedLinks = data.feed.links.slice();
+        rankedLinks.sort((l1, l2)=> l2.votes.length - l1.votes.length);
+        return rankedLinks;
+    }
+
     render(){
         return <Query query={FEED_QUERY} variables={this._getQueryVaraibles()} >
             {
@@ -104,7 +114,7 @@ class LinkList extends Component {
                     this._subscribeToNewLinks(subscribeToMore);
                     this._subscribeToNewVotes(subscribeToMore);
 
-                    const linkToRender = data.feed.links;
+                    const linkToRender = this._getLinksToRender(data);
                     const isNewPage = this.props.location.pathname.includes('new');
                     const pageIndex = this.props.match.params.page ?
                         (this.props.match.params.page - 1) * LINKS_PER_PAGE : 0;

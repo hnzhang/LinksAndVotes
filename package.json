@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "resource for full stack developers implemented with graphql",
   "engines": {
-    "node":"^8.12.0"
+    "node": "^8.12.0"
   },
   "main": "index.js",
   "scripts": {
