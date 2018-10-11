@@ -42,8 +42,8 @@ class Link extends Component{
                         >
                             {
                                 (voteMutation)=>(
-                                <span className='btn-success' onClick={voteMutation}>
-                                    +++++<i className='far fa-thumbs-up' />
+                                <span className='btn' onClick={voteMutation}>
+                                    <i className='far fa-thumbs-up' />
                                 </span>
                                 )
                              }

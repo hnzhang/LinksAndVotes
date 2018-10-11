@@ -39,13 +39,16 @@ class CreateLink extends Component {
     render(){
         const {description, url} = this.state;
         return (
-            <div>
-                <div className = 'flex flex-column mt3'>
-                    <input className='mb2' value = {description} onChange={e=> this.setState({description: e.target.value})}
+            <div className='container'>
+                <div className = 'form-group'>
+                    <input className='form-control' value = {description} onChange={e=> this.setState({description: e.target.value})}
                         type='text'
                         placeholder='A description of the link'
                     />
-                    <input className='mb2' value={url} onChange={e=> this.setState({url: e.target.value})}
+                </div>
+
+                <div className = 'form-group'>
+                    <input className='form-control' value={url} onChange={e=> this.setState({url: e.target.value})}
                         type="text"
                         placeholder="The URL for the Link"
                     />
@@ -60,7 +63,6 @@ class CreateLink extends Component {
                             query:FEED_QUERY,
                             variables:{first, skip, orderBy},
                         });
-                        console.log("before writing to store", data);
                         data.feed.links.unshift(post);
                         store.writeQuery({
                             query: FEED_QUERY,
@@ -69,9 +71,9 @@ class CreateLink extends Component {
                         });
                     }}
                 >
-                {(postMutation)=>(
-                        <button onClick={postMutation}>Submit </button>
-                )}
+                    {(postMutation)=>(
+                        <button className='btn btn-info' onClick={postMutation}>Submit </button>
+                    )}
                 </Mutation>
             </div>
         );

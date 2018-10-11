@@ -38,16 +38,20 @@ class Search extends Component {
 
     render(){
         return (
-            <div>
+            <div className='container-fluid'>
+            <form className='form-inline' >
+                <div className='form-group mb-2'>
+                    <input type='text' className='form-control' id='searchInput' onChange={e=>this.setState({filter:e.target.value})} placeholder='Input keyword...'/>
+                </div> {'  '}
+                <button className='btn btn-primary mb-2' onClick={()=>this._executeSearch()}>Search</button>
                 <div>
-                    Search <input type='text' onChange={e=>this.setState({filter:e.target.value})} />
-                    <button onClick={()=>this._executeSearch()}>OK</button>
-                </div>
                 {
                     this.state.links.map((link, index)=>(
                         <Link key={link.id} link={link} index={index} />
                     ))
                 }
+            </div>
+            </form>
             </div>
         );
     }
