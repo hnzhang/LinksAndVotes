@@ -21,7 +21,7 @@ import { AUTH_TOKEN } from './constants';
 
 let wsURI= 'ws://localhost:4000';
 let httpURI = `http://localhost:4000`;
-if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV) {
     const hostname = process.env.HOST_NAME;
 
     httpURI = `https://${hostname}`;
