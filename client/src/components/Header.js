@@ -12,10 +12,10 @@ class Header extends Component {
                     <div className='navbar-brand'> Resource Links for Fullstack </div>
                 <ul className='navbar-nav ml-auto' >
                     <li className='nav-item'>
-                        <Link to='/' className='nav-link' >news</Link>
+                        <Link to='/' className='nav-link' >News</Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/top' className='nav-link' >top</Link>
+                        <Link to='/top' className='nav-link' >Top</Link>
                     </li>
                     {authToken && (
                     <li className='nav-item'>
