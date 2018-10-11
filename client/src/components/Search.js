@@ -39,11 +39,15 @@ class Search extends Component {
     render(){
         return (
             <div className='container-fluid'>
-            <form className='form-inline' >
-                <div className='form-group mb-2'>
-                    <input type='text' className='form-control' id='searchInput' onChange={e=>this.setState({filter:e.target.value})} placeholder='Input keyword...'/>
-                </div> {'  '}
-                <button className='btn btn-primary mb-2' onClick={()=>this._executeSearch()}>Search</button>
+                <div className='row'>
+                    <div className='form-group mb-2 col-sm'>
+                        <input type='text' className='form-control' id='searchInput'
+                             onChange={e=>this.setState({filter:e.target.value})} placeholder='Input keyword of resources...'/>
+                    </div>
+                    <div className='col-sm'>
+                        <button className='btn btn-primary mb-2' onClick={()=>this._executeSearch()}>Search</button>
+                  </div>
+                </div>
                 <div>
                 {
                     this.state.links.map((link, index)=>(
@@ -51,18 +55,19 @@ class Search extends Component {
                     ))
                 }
             </div>
-            </form>
             </div>
         );
     }
 
     _executeSearch = async () =>{
+        console.log("Searching");
         const {filter} = this.state;
         const result = await this.props.client.query({
             query: FEED_SEARCH_QUERY,
             variables: {filter},
         });
         const links = result.data.feed.links;
+        console.log(links);
         this.setState({links});
     }
 }
