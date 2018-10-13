@@ -116,7 +116,7 @@ class LinkList extends Component {
 
                     const linkToRender = this._getLinksToRender(data);
                     const isNewPage = this.props.location.pathname.includes('new');
-                    const pageIndex = this.props.match.params.page ?
+                    const pageIndex = !isNaN(this.props.match.params.page) ?
                         (this.props.match.params.page - 1) * LINKS_PER_PAGE : 0;
                     return (
                         <Fragment>
